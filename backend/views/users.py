@@ -10,7 +10,6 @@ user_api_model = {
     "username": fields.String,
     "fullName": fields.String(attribute='full_name'),
     "email": fields.String,
-    "password": fields.String,
     "avatar": fields.String  
 }
 
@@ -21,9 +20,8 @@ create_user_parser.add_argument('full_name', location='json', required=True)
 create_user_parser.add_argument('email', location='json', required=True)
 create_user_parser.add_argument('password', location='json', required=True)
 
-# NOTE: Will need more modification just for exmaple purposes 
-# Postman request url: 
 class Users(Resource):
+    @marshal_with(user_api_model)
     def post(self):
         user = create_user_parser.parse_args()
         return UsersRepo.create_user(user)
